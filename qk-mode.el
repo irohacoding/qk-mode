@@ -5,7 +5,7 @@
 ;; Author: IrohaCoding <info@irohacoding.com>
 ;; Keywords: tools
 
-;; Version: 0.1.1
+;; Version: 0.1.2
 ;; Package-Requires: ((emacs "27.1"))
 ;; URL: https://github.com/irohacoding/qk-mode
 
@@ -33,7 +33,7 @@
 
 ;;; Code:
 
-(defconst qk-mode-version "0.1.1"
+(defconst qk-mode-version "0.1.2"
   "QK Mode version.")
 
 (defgroup qk-mode nil
@@ -63,13 +63,14 @@
 
 (defun qk-coffee-break ()
   "Display coffee cup and steam with animation."
-  (let ((cup-parts '("________\n"
+  (let ((height (- (frame-height) 8))
+        (cup-parts '("________\n"
                      "  |        |-_\n"
                      "   |        | ||\n"
                      "  |________|_-\n"
                      "\\______/")))
     (save-excursion
-      (insert (make-string 16 ?\n))
+      (insert (make-string (/ height 2) ?\n))
       (dolist (cup cup-parts)
         (qk-insert-center cup))
       (goto-line (- (line-number-at-pos) 5))

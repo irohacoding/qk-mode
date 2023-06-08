@@ -109,4 +109,4 @@
 
 (provide 'qk-mode)
 
-;;; qk-mode ends here.
+;;; qk-mode.el ends here.

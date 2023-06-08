@@ -9,6 +9,7 @@ As we all know, taking breaks is essential for maintaining productivity and over
 To install QK mode, simply download the `qk-mode.el` file from GitHub and save it to your Emacs Lisp directory, which is usually `~/.emacs.d/elisp/`. Then, add the following line to your Emacs configuration file:
 
 ```
+(add-to-list 'load-path "~/.emacs.d/elisp")
 (require 'qk-mode)
 ```
 

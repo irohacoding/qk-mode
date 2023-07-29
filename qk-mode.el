@@ -5,7 +5,7 @@
 ;; Author: IrohaCoding <info@irohacoding.com>
 ;; Keywords: tools
 
-;; Version: 0.1.2
+;; Version: 0.1.3
 ;; Package-Requires: ((emacs "27.1"))
 ;; URL: https://github.com/irohacoding/qk-mode
 
@@ -109,4 +109,4 @@
 
 (provide 'qk-mode)
 
-;;; qk-mode.el ends here.
+;;; qk-mode.el ends here

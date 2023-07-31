@@ -5,6 +5,11 @@
 ### Changed
 - Favorite word to coffee cup with steam in center.
 
+### Fixed
+- Last line comment
+  - Add .el extension
+  - Remove period
+
 ## v0.1.0 (2023-05-26)
 
 - First release.

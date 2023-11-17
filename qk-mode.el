@@ -5,7 +5,7 @@
 ;; Author: IrohaCoding <info@irohacoding.com>
 ;; Keywords: tools
 
-;; Version: 0.1.3
+;; Version: 0.1.4
 ;; Package-Requires: ((emacs "27.1"))
 ;; URL: https://github.com/irohacoding/qk-mode
 
@@ -33,7 +33,7 @@
 
 ;;; Code:
 
-(defconst qk-mode-version "0.1.2"
+(defconst qk-mode-version "0.1.4"
   "QK Mode version.")
 
 (defgroup qk-mode nil
@@ -91,9 +91,8 @@
       (goto-line (+ (line-number-at-pos) 5))
       (dotimes (i 5)
         (sit-for 1)
-        (delete-line)
-        (insert "\n")
-        (goto-line (- (line-number-at-pos) 2)))
+        (delete-region (point) (line-end-position))
+        (goto-line (- (line-number-at-pos) 1)))
       (goto-line (+ (line-number-at-pos) 5)))))
 
 (defun qk-insert-center (text)

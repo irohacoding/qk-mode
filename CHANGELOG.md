@@ -6,6 +6,8 @@
 - Favorite word to coffee cup with steam in center.
 
 ### Fixed
+- qk-insert-steam function
+  - delete-line to delete-region
 - Last line comment
   - Add .el extension
   - Remove period

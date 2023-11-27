@@ -5,8 +5,8 @@
 ;; Author: IrohaCoding <info@irohacoding.com>
 ;; Keywords: tools
 
-;; Version: 0.1.4
-;; Package-Requires: ((emacs "27.1"))
+;; Version: 0.1.5
+;; Package-Requires: ((emacs "28.2"))
 ;; URL: https://github.com/irohacoding/qk-mode
 
 ;; This file is not part of GNU Emacs, but is distributed under
@@ -29,39 +29,47 @@
 
 ;; QK Mode is to take a break for hard working users.
 ;; Type M-x qk for start qk-mode. Type C-g to stop steam
-;; and type C-g again to exit (kill *break* buffer). 
+;; and type C-g again to exit (kill *break* buffer).
 
 ;;; Code:
-
-(defconst qk-mode-version "0.1.4"
-  "QK Mode version.")
 
 (defgroup qk-mode nil
   "Take a break for hard working users."
   :group 'tools
-  :prefix "qk-"
+  :prefix "qk-mode-"
   :link '(url-link :tag "Repository" "https://github.com/irohacoding/qk-mode"))
 
 (defvar qk-mode-buffer "*break*"
-  "Buffer name for qk-mode")
+  "Buffer name for qk-mode.")
 
 (defvar qk-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "C-g") 'qk-mode-finish)
     map))
 
+(defcustom qk-mode-max-steaming-count 8
+  "Max steaming count."
+  :type 'integer
+  :group 'qk-mode)
+
+(defcustom qk-mode-favorite-quote "“i like coffee.” said mitsuru."
+  "Customize favorite quote."
+  :type 'string
+  :group 'qk-mode)
+
 (define-derived-mode qk-mode text-mode "QK"
   "Major mode for taking a break."
   (setq cursor-type nil))
 
+;;;###autoload
 (defun qk ()
   "Take a break!"
   (interactive)
   (switch-to-buffer (get-buffer-create qk-mode-buffer))
   (qk-mode)
-  (qk-coffee-break))
+  (qk-mode--coffee-break))
 
-(defun qk-coffee-break ()
+(defun qk-mode--coffee-break ()
   "Display coffee cup and steam with animation."
   (let ((height (- (frame-height) 8))
         (cup-parts '("________\n"
@@ -72,30 +80,39 @@
     (save-excursion
       (insert (make-string (/ height 2) ?\n))
       (dolist (cup cup-parts)
-        (qk-insert-center cup))
+        (qk-mode--insert-center cup))
       (goto-line (- (line-number-at-pos) 5))
-      (qk-insert-steam))))
+      (qk-mode--insert-steam))))
 
-(defun qk-insert-steam ()
+(defun qk-mode--insert-steam ()
   "Insert and repeat steam like animation."
-  (let ((steam-parts '("\\ | /"
+  (let ((count 0)
+        (steam-parts '("\\ | /"
                        "/ / \\"
                        " ` \\"
                        " . /"
                        "   `,")))
-    (while t
+    (while (< count qk-mode-max-steaming-count)
       (dolist (steam steam-parts)
         (sit-for 1)
-        (qk-insert-center steam)
+        (qk-mode--insert-center steam)
         (goto-line (- (line-number-at-pos) 1)))
       (goto-line (+ (line-number-at-pos) 5))
-      (dotimes (i 5)
+      (dotimes (i (length steam-parts))
         (sit-for 1)
         (delete-region (point) (line-end-position))
         (goto-line (- (line-number-at-pos) 1)))
-      (goto-line (+ (line-number-at-pos) 5)))))
+      (goto-line (+ (line-number-at-pos) 5))
+      (setq count (1+ count)))
+    (qk-mode--insert-favorite-quote)))
 
-(defun qk-insert-center (text)
+(defun qk-mode--insert-favorite-quote ()
+  "Insert favorite quote above coffee cup."
+  (let ((quote qk-mode-favorite-quote))
+    (goto-line (- (line-number-at-pos) 5))
+    (qk-mode--insert-center quote)))
+
+(defun qk-mode--insert-center (text)
   "Insert text centered in the current buffer."
   (let ((width (- (frame-width) 1)))
     (insert (make-string (/ (- width (length text)) 2) ?\s))

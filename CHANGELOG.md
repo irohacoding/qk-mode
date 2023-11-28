@@ -16,5 +16,5 @@
 
 - First release.
   - `M-x qk` to launch QK Mode.
-  - Display favorite word in *break* buffer.
+  - Display favorite word in \*break\* buffer.
   - Favorite word can customize to yours.

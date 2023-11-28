@@ -5,7 +5,7 @@
 ;; Author: IrohaCoding <info@irohacoding.com>
 ;; Keywords: tools
 
-;; Version: 0.2.0
+;; Version: 0.2.1
 ;; Package-Requires: ((emacs "28.2"))
 ;; URL: https://github.com/irohacoding/qk-mode
 
@@ -52,13 +52,13 @@
   :type 'integer
   :group 'qk-mode)
 
-(defcustom qk-mode-show-phrase t
-  "Show favorite phrase after steaming."
+(defcustom qk-mode-show-words t
+  "Show favorite words after steaming."
   :type 'boolean
   :group 'qk-mode)
 
-(defcustom qk-mode-favorite-phrase "less is more"
-  "Customize favorite phrase."
+(defcustom qk-mode-favorite-words "less is more"
+  "Customize favorite words."
   :type 'string
   :group 'qk-mode)
 
@@ -91,7 +91,7 @@
 
 (defun qk-mode--insert-steam ()
   "Insert and repeat steam like animation and insert favorite
-   phrase after steaming if `qk-mode-show-phrase' is t."
+   words after steaming if `qk-mode-show-words' is t."
   (let ((count 0)
         (steam-parts '(" \\ | /"
                        " / / \\"
@@ -105,8 +105,8 @@
         (goto-line (- (line-number-at-pos) 1)))
       (goto-line (+ (line-number-at-pos) 5))
       (if (and (eq (1+ count) qk-mode-max-steaming-count)
-               qk-mode-show-phrase)
-          (qk-mode--insert-favorite-phrase)
+               qk-mode-show-words)
+          (qk-mode--insert-favorite-words)
         (dotimes (i (length steam-parts))
           (sit-for 1)
           (delete-region (point) (line-end-position))
@@ -114,12 +114,12 @@
         (goto-line (+ (line-number-at-pos) 5)))
       (setq count (1+ count)))))
 
-(defun qk-mode--insert-favorite-phrase ()
-  "Insert favorite phrase above coffee cup and steam."
-  (let ((phrase qk-mode-favorite-phrase))
+(defun qk-mode--insert-favorite-words ()
+  "Insert favorite words above coffee cup and steam."
+  (let ((words qk-mode-favorite-words))
     (goto-line (- (line-number-at-pos) 6))
     (sit-for 1)
-    (qk-mode--insert-center phrase)))
+    (qk-mode--insert-center words)))
 
 (defun qk-mode--insert-center (text)
   "Insert text centered in the current buffer."

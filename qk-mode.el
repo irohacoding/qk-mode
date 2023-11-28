@@ -5,7 +5,7 @@
 ;; Author: IrohaCoding <info@irohacoding.com>
 ;; Keywords: tools
 
-;; Version: 0.1.5
+;; Version: 0.2.0
 ;; Package-Requires: ((emacs "28.2"))
 ;; URL: https://github.com/irohacoding/qk-mode
 
@@ -35,7 +35,7 @@
 
 (defgroup qk-mode nil
   "Take a break for hard working users."
-  :group 'tools
+  :group 'applications
   :prefix "qk-mode-"
   :link '(url-link :tag "Repository" "https://github.com/irohacoding/qk-mode"))
 
@@ -52,8 +52,13 @@
   :type 'integer
   :group 'qk-mode)
 
-(defcustom qk-mode-favorite-quote "“i like coffee.” said mitsuru."
-  "Customize favorite quote."
+(defcustom qk-mode-show-phrase t
+  "Show favorite phrase after steaming."
+  :type 'boolean
+  :group 'qk-mode)
+
+(defcustom qk-mode-favorite-phrase "less is more"
+  "Customize favorite phrase."
   :type 'string
   :group 'qk-mode)
 
@@ -72,10 +77,10 @@
 (defun qk-mode--coffee-break ()
   "Display coffee cup and steam with animation."
   (let ((height (- (frame-height) 8))
-        (cup-parts '("________\n"
-                     "  |        |-_\n"
-                     "   |        | ||\n"
-                     "  |________|_-\n"
+        (cup-parts '(" ________\n"
+                     "   |        |-_\n"
+                     "    |        | ||\n"
+                     "   |________|_-\n"
                      "\\______/")))
     (save-excursion
       (insert (make-string (/ height 2) ?\n))
@@ -85,10 +90,11 @@
       (qk-mode--insert-steam))))
 
 (defun qk-mode--insert-steam ()
-  "Insert and repeat steam like animation."
+  "Insert and repeat steam like animation and insert favorite
+   phrase after steaming if `qk-mode-show-phrase' is t."
   (let ((count 0)
-        (steam-parts '("\\ | /"
-                       "/ / \\"
+        (steam-parts '(" \\ | /"
+                       " / / \\"
                        " ` \\"
                        " . /"
                        "   `,")))
@@ -98,19 +104,22 @@
         (qk-mode--insert-center steam)
         (goto-line (- (line-number-at-pos) 1)))
       (goto-line (+ (line-number-at-pos) 5))
-      (dotimes (i (length steam-parts))
-        (sit-for 1)
-        (delete-region (point) (line-end-position))
-        (goto-line (- (line-number-at-pos) 1)))
-      (goto-line (+ (line-number-at-pos) 5))
-      (setq count (1+ count)))
-    (qk-mode--insert-favorite-quote)))
+      (if (and (eq (1+ count) qk-mode-max-steaming-count)
+               qk-mode-show-phrase)
+          (qk-mode--insert-favorite-phrase)
+        (dotimes (i (length steam-parts))
+          (sit-for 1)
+          (delete-region (point) (line-end-position))
+          (goto-line (- (line-number-at-pos) 1)))
+        (goto-line (+ (line-number-at-pos) 5)))
+      (setq count (1+ count)))))
 
-(defun qk-mode--insert-favorite-quote ()
-  "Insert favorite quote above coffee cup."
-  (let ((quote qk-mode-favorite-quote))
-    (goto-line (- (line-number-at-pos) 5))
-    (qk-mode--insert-center quote)))
+(defun qk-mode--insert-favorite-phrase ()
+  "Insert favorite phrase above coffee cup and steam."
+  (let ((phrase qk-mode-favorite-phrase))
+    (goto-line (- (line-number-at-pos) 6))
+    (sit-for 1)
+    (qk-mode--insert-center phrase)))
 
 (defun qk-mode--insert-center (text)
   "Insert text centered in the current buffer."

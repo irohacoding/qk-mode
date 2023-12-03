@@ -5,7 +5,7 @@
 ;; Author: IrohaCoding <info@irohacoding.com>
 ;; Keywords: tools
 
-;; Version: 0.2.1
+;; Version: 0.2.2
 ;; Package-Requires: ((emacs "28.2"))
 ;; URL: https://github.com/irohacoding/qk-mode
 
@@ -28,8 +28,8 @@
 ;;; Commentary:
 
 ;; QK Mode is to take a break for hard working users.
-;; Type M-x qk for start qk-mode. Type C-g to stop steam
-;; and type C-g again to exit (kill *break* buffer).
+;; Type M-x qk for start qk-mode.
+;; Type C-g to exit (kill *break* buffer).
 
 ;;; Code:
 
@@ -91,7 +91,7 @@
 
 (defun qk-mode--insert-steam ()
   "Insert and repeat steam like animation and insert favorite
-   words after steaming if `qk-mode-show-words' is t."
+words after steaming if `qk-mode-show-words' is t."
   (let ((count 0)
         (steam-parts '(" \\ | /"
                        " / / \\"
@@ -104,8 +104,7 @@
         (qk-mode--insert-center steam)
         (goto-line (- (line-number-at-pos) 1)))
       (goto-line (+ (line-number-at-pos) 5))
-      (if (and (eq (1+ count) qk-mode-max-steaming-count)
-               qk-mode-show-words)
+      (if (and (eq (1+ count) qk-mode-max-steaming-count) qk-mode-show-words)
           (qk-mode--insert-favorite-words)
         (dotimes (i (length steam-parts))
           (sit-for 1)

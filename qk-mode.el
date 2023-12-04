@@ -5,7 +5,7 @@
 ;; Author: IrohaCoding <info@irohacoding.com>
 ;; Keywords: tools
 
-;; Version: 0.2.2
+;; Version: 0.2.3
 ;; Package-Requires: ((emacs "28.2"))
 ;; URL: https://github.com/irohacoding/qk-mode
 
@@ -57,7 +57,7 @@
   :type 'boolean
   :group 'qk-mode)
 
-(defcustom qk-mode-favorite-words "less is more"
+(defcustom qk-mode-favorite-words "٩(♡ε♡ )۶"
   "Customize favorite words."
   :type 'string
   :group 'qk-mode)

@@ -3,9 +3,9 @@
 ;; Copyright (C) 2023 IrohaCoding
 
 ;; Author: IrohaCoding <info@irohacoding.com>
+;; Created: 2023-05-26
+;; Version: 0.2.4
 ;; Keywords: tools
-
-;; Version: 0.2.3
 ;; Package-Requires: ((emacs "28.2"))
 ;; URL: https://github.com/irohacoding/qk-mode
 
@@ -27,8 +27,8 @@
 
 ;;; Commentary:
 
-;; QK Mode is to take a break for hard working users.
-;; Type M-x qk for start qk-mode.
+;; QK mode is to take a break for hard working users.
+;; Type M-x qk for start qk-mode. Open *break* buffer and steaming from coffee cup.
 ;; Type C-g to exit (kill *break* buffer).
 
 ;;; Code:
@@ -42,13 +42,18 @@
 (defvar qk-mode-buffer "*break*"
   "Buffer name for qk-mode.")
 
+(defvar qk-mode-scroll-bar-mode nil
+  "QK mode does not appear scroll bars. so if default scroll bar
+mode is right or left, keep it in this variable and restore it
+when QK mode is finished.")
+
 (defvar qk-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "C-g") 'qk-mode-finish)
+    (define-key map (kbd "C-g") #'qk-mode-finish)
     map))
 
-(defcustom qk-mode-max-steaming-count 8
-  "Max steaming count."
+(defcustom qk-mode-steaming-count 8
+  "Steaming count."
   :type 'integer
   :group 'qk-mode)
 
@@ -57,14 +62,16 @@
   :type 'boolean
   :group 'qk-mode)
 
-(defcustom qk-mode-favorite-words "٩(♡ε♡ )۶"
+(defcustom qk-mode-favorite-words "less is more"
   "Customize favorite words."
   :type 'string
   :group 'qk-mode)
 
 (define-derived-mode qk-mode text-mode "QK"
   "Major mode for taking a break."
-  (setq cursor-type nil))
+  (setq cursor-type nil)
+  (setq qk-mode-scroll-bar-mode (get-scroll-bar-mode))
+  (set-scroll-bar-mode nil))
 
 ;;;###autoload
 (defun qk ()
@@ -76,35 +83,35 @@
 
 (defun qk-mode--coffee-break ()
   "Display coffee cup and steam with animation."
-  (let ((height (- (frame-height) 8))
-        (cup-parts '(" ________\n"
-                     "   |        |-_\n"
-                     "    |        | ||\n"
-                     "   |________|_-\n"
-                     "\\______/")))
+  (let ((height (frame-height))
+        (cup-parts '(" _________\n"
+                     "   |         |-_\n"
+                     "    |         | ||\n"
+                     "   |_________|_-\n"
+                     "\\_______/")))
     (save-excursion
-      (insert (make-string (/ height 2) ?\n))
+      (insert (make-string (/ (- height 8) 2) ?\n))
       (dolist (cup cup-parts)
         (qk-mode--insert-center cup))
       (goto-line (- (line-number-at-pos) 5))
       (qk-mode--insert-steam))))
 
 (defun qk-mode--insert-steam ()
-  "Insert and repeat steam like animation and insert favorite
+  "Insert and repeat steaming and insert favorite
 words after steaming if `qk-mode-show-words' is t."
   (let ((count 0)
-        (steam-parts '(" \\ | /"
-                       " / / \\"
-                       " ` \\"
-                       " . /"
+        (steam-parts '("\\ | /"
+                       "/ / \\"
+                       "` \\"
+                       ". /"
                        "   `,")))
-    (while (< count qk-mode-max-steaming-count)
+    (while (< count qk-mode-steaming-count)
       (dolist (steam steam-parts)
         (sit-for 1)
         (qk-mode--insert-center steam)
         (goto-line (- (line-number-at-pos) 1)))
       (goto-line (+ (line-number-at-pos) 5))
-      (if (and (eq (1+ count) qk-mode-max-steaming-count) qk-mode-show-words)
+      (if (and (eq (1+ count) qk-mode-steaming-count) qk-mode-show-words)
           (qk-mode--insert-favorite-words)
         (dotimes (i (length steam-parts))
           (sit-for 1)
@@ -122,14 +129,15 @@ words after steaming if `qk-mode-show-words' is t."
 
 (defun qk-mode--insert-center (text)
   "Insert text centered in the current buffer."
-  (let ((width (- (frame-width) 1)))
+  (let ((width (frame-width)))
     (insert (make-string (/ (- width (length text)) 2) ?\s))
     (insert text)))
 
 (defun qk-mode-finish ()
   "Kill *break* buffer for finish qk-mode."
   (interactive)
-  (kill-buffer qk-mode-buffer))
+  (kill-buffer qk-mode-buffer)
+  (set-scroll-bar-mode qk-mode-scroll-bar-mode))
 
 (provide 'qk-mode)
 

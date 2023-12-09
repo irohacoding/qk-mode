@@ -6,6 +6,7 @@ As we all know, taking breaks is essential for maintaining productivity and over
 
 ## Installation
 
+### Manual
 To install QK mode, simply download the `qk-mode.el` file and save it to your Emacs Lisp directory (e.g., `~/.emacs.d/elisp/`). Then, add the following line to your Emacs configuration file (e.g., `~/.emacs.d/init.el`):
 
 ```
@@ -34,9 +35,11 @@ The steam will continue to rise every 10 seconds until a specified count. After 
 When launching QK mode, steam rises from the coffee cup a specified number of times and then disappears.
 You can specify the number of times the steam rises.
 
-`M-x customize-option` `RET` `qk-mode-max-steaming-count` `RET`
+`M-x customize-option` `RET` `qk-mode-steaming-count` `RET`
 
 Default: 8 times
+
+(Changed variable name on version 0.2.4 (eliminate max-). So if you already set count, need to re-set count. xP)
 
 ### Show favorite words after steaming
 
@@ -55,5 +58,11 @@ Currently, only a single line is supported.
 `M-x customize-option` `RET` `qk-mode-favorite-words` `RET`
 
 Default: less is more
+
+---
+
+Taking breaks at regular intervals is important for mental and physical health. Research has shown that taking breaks can improve focus, creativity, and cognitive function. In addition, taking breaks can prevent burnout and reduce stress levels.
+
+QK mode is a helpful tool for those who may forget to take breaks. We hope that QK mode will help you take the breaks you need to stay focused and productive!
 
 Enjoy!!

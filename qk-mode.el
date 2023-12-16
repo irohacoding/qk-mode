@@ -4,7 +4,7 @@
 
 ;; Author: IrohaCoding <info@irohacoding.com>
 ;; Created: 2023-05-26
-;; Version: 0.2.4
+;; Version: 0.2.5
 ;; Keywords: tools
 ;; Package-Requires: ((emacs "28.2"))
 ;; URL: https://github.com/irohacoding/qk-mode
@@ -12,18 +12,18 @@
 ;; This file is not part of GNU Emacs, but is distributed under
 ;; the same terms.
 
-;; GNU Emacs is free software: you can redistribute it and/or modify
+;; QK mode is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation, either verion 3 of the License, or
 ;; (at your option) any later version.
 
-;; GNU Emacs is distributed in the hope that it will be useful,
+;; QK mode is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with GNU Emacs. If not, see <http://www.gnu.org/licenses/>.
+;; along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -58,7 +58,7 @@ when QK mode is finished.")
   :group 'qk-mode)
 
 (defcustom qk-mode-show-words t
-  "Show favorite words after steaming."
+  "Show favorite words after steaming or not."
   :type 'boolean
   :group 'qk-mode)
 

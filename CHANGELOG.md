@@ -2,8 +2,15 @@
 
 ## main (Unreleased)
 
+### Added
+- qk-mode-scroll-bar-mode variable.
+
 ### Modified
 - favorite phrase to favorite words.
+- size of coffee cup a bit. (width)
+
+### Fixed
+- name of qk-mode-steaming-count. (eliminate max-)
 
 ## v0.2.0 (2023-11-28)
 
